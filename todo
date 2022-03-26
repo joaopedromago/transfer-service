@@ -8,7 +8,6 @@ salvas no BD.
 
 - Repository MongoDB
     * Transferência
-    * Retorno Transferência
     * DLQ
 - Service de receber uma transferência
     * Receber requisição
