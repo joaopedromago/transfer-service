@@ -1,6 +1,9 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { TransferDto } from 'src/modules/transfer/interfaces/dto';
+import {
+  BankSettlementResponseDto,
+  TransferDto,
+} from 'src/modules/transfer/interfaces/dto';
 import { TransferStatus } from 'src/shared/enums';
 import { SchemaFactoryWithMethods } from 'src/shared/utils';
 
@@ -29,6 +32,11 @@ export class Transfer {
       this.amount = transferDto.amount;
       this.expectedOn = transferDto.expectedOn;
     }
+  }
+
+  setBankSettlementInformation(bankSettlementInfo: BankSettlementResponseDto) {
+    this.internalId = bankSettlementInfo.internalId;
+    this.status = bankSettlementInfo.status;
   }
 }
 
