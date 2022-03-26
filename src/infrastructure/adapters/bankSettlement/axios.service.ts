@@ -27,11 +27,11 @@ export class BankSettlementAxiosAdapter implements BankSettlementPort {
   async post(
     data: BankSettlementRequestDto,
   ): Promise<AxiosResponse<BankSettlementResponseDto>> {
-    return await this.client.post('/paymentOrders', data);
+    return this.client.post('/paymentOrders', data);
   }
 
   async get(internalId: string): Promise<AxiosResponse<Transfer>> {
-    return await this.client.get(`/paymentOrders/${internalId}`);
+    return this.client.get(`/paymentOrders/${internalId}`);
   }
 }
 

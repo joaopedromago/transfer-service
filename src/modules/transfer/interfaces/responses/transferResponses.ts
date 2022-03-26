@@ -11,7 +11,7 @@ export const rejectedTransfer = {
 };
 
 export const processingCreationResult = {
-  status: HttpStatus.PROCESSING,
+  status: HttpStatus.ACCEPTED,
   description: 'A transferência está processando.',
 };
 

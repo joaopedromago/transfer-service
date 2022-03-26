@@ -26,12 +26,13 @@ export class PendingQueueService {
 
     await Promise.all(
       pendingTransfers.map(async (queuedTransfer) => {
-        queuedTransfer.setExecuted();
-        await this.queueRepository.update(queuedTransfer);
-
         const transfer = await this.transferRepository.findById(
           queuedTransfer.transferId,
         );
+
+        if (!transfer) {
+          return;
+        }
 
         const [error, response] = await to(
           this.processTransferService.process(transfer),
@@ -42,6 +43,9 @@ export class PendingQueueService {
         } else {
           this.logger.verbose(response);
         }
+
+        queuedTransfer.setExecuted();
+        await this.queueRepository.update(queuedTransfer);
       }),
     );
   }

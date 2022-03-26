@@ -7,7 +7,10 @@ import {
 import { BankSettlementProvider } from 'src/infrastructure/adapters/bankSettlement';
 import { Transfer, TransferSchema } from 'src/modules/transfer/core/domain';
 import { ProcessTransferService } from 'src/modules/transfer/core/services';
-import { PendingQueueService } from 'src/modules/pendingQueue/core/services';
+import {
+  PendingQueueService,
+  SaveToQueueService,
+} from 'src/modules/pendingQueue/core/services';
 import { Queue, QueueSchema } from 'src/modules/pendingQueue/core/domain';
 
 @Module({
@@ -26,8 +29,9 @@ import { Queue, QueueSchema } from 'src/modules/pendingQueue/core/domain';
   providers: [
     TransferRepositoryProvider,
     QueueRepositoryProvider,
-    ProcessTransferService,
+    SaveToQueueService,
     BankSettlementProvider,
+    ProcessTransferService,
     PendingQueueService,
   ],
 })

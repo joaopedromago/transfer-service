@@ -6,7 +6,7 @@
       "externalId": "external_id",
       "status": "APPROVED",
       "amount": 1000,
-      "expectedOn" : "15-12-2022"
+      "expectedOn" : "2022-12-15T00:00:00.000Z"
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "externalId": "external_id2",
       "status": "SCHEDULED",
       "amount": 72555,
-      "expectedOn" : "15-12-2022"
+      "expectedOn" : "2022-12-15T00:00:00.000Z"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "externalId": "external_id3",
       "status": "REJECTED",
       "amount": 4500,
-      "expectedOn" : "15-12-2021"
+      "expectedOn" : "2021-12-15T00:00:00.000Z"
     }
   ]
 }

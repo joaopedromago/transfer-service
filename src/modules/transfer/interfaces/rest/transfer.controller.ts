@@ -9,7 +9,6 @@ import {
   processingCreationResult,
   createdResult,
 } from 'src/modules/transfer/interfaces/responses';
-import { TransferRequestStatus } from 'src/shared/enums';
 
 @ApiTags('Transfers')
 @Controller(appRoutes.transfer._)
@@ -24,12 +23,12 @@ export class TransferController {
   async create(@Body() payload: TransferDto, @Res() res: Response) {
     const result = await this.createTransferService.create(payload);
 
-    if (result === TransferRequestStatus.PROCESSING) {
+    if (!result) {
       return res
         .status(processingCreationResult.status)
         .send(processingCreationResult.description);
     }
 
-    return res.status(createdResult.status).send(createdResult.description);
+    return res.status(createdResult.status).send(result);
   }
 }
