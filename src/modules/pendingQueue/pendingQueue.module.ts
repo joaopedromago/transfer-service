@@ -31,4 +31,4 @@ import { Queue, QueueSchema } from 'src/modules/pendingQueue/core/domain';
     PendingQueueService,
   ],
 })
-export class TransferModule {}
+export class PendingQueueModule {}

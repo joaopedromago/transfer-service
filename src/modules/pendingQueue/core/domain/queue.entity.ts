@@ -18,6 +18,10 @@ export class Queue {
     }
     this.isPending = true;
   }
+
+  setExecuted() {
+    this.isPending = false;
+  }
 }
 
 export type QueueDocument = Queue & Document;
