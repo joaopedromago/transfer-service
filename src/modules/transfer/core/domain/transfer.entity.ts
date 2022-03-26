@@ -1,5 +1,6 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { TransferDto } from 'src/modules/transfer/interfaces/dto';
 import { TransferStatus } from 'src/shared/enums';
 import { SchemaFactoryWithMethods } from 'src/shared/utils';
 
@@ -22,8 +23,12 @@ export class Transfer {
   @Prop()
   expectedOn?: Date;
 
-  constructor() {
-    // TODO: add dto
+  constructor(transferDto?: TransferDto) {
+    if (transferDto) {
+      this.externalId = transferDto.externalId;
+      this.amount = transferDto.amount;
+      this.expectedOn = transferDto.expectedOn;
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import { Provider } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TransferRepositoryPort } from 'src/infrastructure/ports/transfer.repository.port';
+import { TransferRepositoryPort } from 'src/infrastructure/ports/';
 import { Transfer, TransferDocument } from 'src/modules/transfer/core/domain';
 
 export class TransferRepositoryAdapter implements TransferRepositoryPort {
@@ -10,8 +10,8 @@ export class TransferRepositoryAdapter implements TransferRepositoryPort {
     private readonly transferModel: Model<TransferDocument>,
   ) {}
 
-  async save(transfer: Transfer): Promise<void> {
-    await this.transferModel.create(transfer);
+  async save(transfer: Transfer): Promise<TransferDocument> {
+    return this.transferModel.create(transfer);
   }
 
   async update(transfer: TransferDocument): Promise<void> {

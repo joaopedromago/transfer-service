@@ -10,12 +10,6 @@ export class TransferDto {
   externalId: string;
 
   @ApiProperty({
-    description: 'Status da transferência',
-  })
-  @IsString()
-  status: TransferStatus;
-
-  @ApiProperty({
     description: 'Quantidade em centavos',
   })
   @IsNumber()
