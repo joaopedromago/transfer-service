@@ -1,0 +1,28 @@
+{
+  "paymentOrders": [
+    {
+      "id": 1,
+      "internalId": "internal_id",
+      "externalId": "external_id",
+      "status": "APPROVED",
+      "amount": 1000,
+      "expectedOn" : "15-12-2022"
+    },
+    {
+      "id": 2,
+      "internalId": "internal_id2",
+      "externalId": "external_id2",
+      "status": "SCHEDULED",
+      "amount": 72555,
+      "expectedOn" : "15-12-2022"
+    },
+    {
+      "id": 3,
+      "internalId": "internal_id3",
+      "externalId": "external_id3",
+      "status": "REJECTED",
+      "amount": 4500,
+      "expectedOn" : "15-12-2021"
+    }
+  ]
+}
