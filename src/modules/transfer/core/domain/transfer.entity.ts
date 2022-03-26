@@ -18,10 +18,10 @@ export class Transfer {
   externalId: string;
 
   @Prop()
-  status: TransferStatus;
+  amount: number; // cents
 
   @Prop()
-  amount: number; // cents
+  status?: TransferStatus;
 
   @Prop()
   expectedOn?: Date;

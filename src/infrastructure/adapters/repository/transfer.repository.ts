@@ -15,7 +15,8 @@ export class TransferRepositoryAdapter implements TransferRepositoryPort {
   }
 
   async update(transfer: TransferDocument): Promise<void> {
-    transfer.save();
+    transfer.isNew = false;
+    await transfer.save();
   }
 
   async findById(id: string): Promise<TransferDocument> {
