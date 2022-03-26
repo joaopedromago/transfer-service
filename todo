@@ -1,0 +1,20 @@
+A proposta é fazer um serviço de transferência que será utilizado por outros serviços dentro de uma
+mesma empresa. O seu serviço deve receber requisição para efetuar uma Transferência de um
+determinado valor (considerar 2 casas decimais) , enviar os dados necessários para a plataforma de
+Liquidação do banco e retornar uma resposta para o serviço do cliente.
+O serviço de Transferência deve receber uma informação opcional de “data de vencimento” que deve
+ser avaliado para que você não envie transferências vencidas. Além disso todas as operações devem ser
+salvas no BD.
+
+- Repository MongoDB
+    * Transferência
+    * Retorno Transferência
+    * DLQ
+- Service de receber uma transferência
+    * Receber requisição
+    * Verificar data de vencimento (que é opcional)
+    * Enviar para a plataforma de liquidação do banco
+- Cron DLQ
+    * Obter DLQ Pendentes
+    * Executar e atualizar um por um
+- Unity Tests (coverage 80%)
