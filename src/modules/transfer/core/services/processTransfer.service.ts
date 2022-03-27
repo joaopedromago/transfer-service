@@ -24,7 +24,7 @@ export class ProcessTransferService {
   ) {}
 
   validateExpectedDateLimit(expectedDate?: Date) {
-    if (expectedDate && expectedDate < new Date()) {
+    if (expectedDate && expectedDate < new Date(Date.now())) {
       throw new HttpException(
         expectedDateCreationError.description,
         expectedDateCreationError.status,
