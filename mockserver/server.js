@@ -6,7 +6,6 @@ const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
 server.use((req, res, next) => {
-  console.log('POST request listener');
   if (req.method === 'POST' && req.url === '/paymentOrders') {
     const randomResponse = Math.floor(Math.random() * 4);
 
