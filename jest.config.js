@@ -4,6 +4,16 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
   testEnvironment: 'node',
+  coveragePathIgnorePatterns: [
+    'node_modules',
+    'test-config',
+    'interfaces',
+    '.module.ts',
+    '<rootDir>/src/main.ts',
+    '.mock.ts',
+    '.plugin.ts',
+    '.repository.ts',
+  ],
   transform: {
     '.+\\.ts$': 'ts-jest',
   },
