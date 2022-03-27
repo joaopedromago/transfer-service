@@ -9,6 +9,7 @@ import {
   CreateTransferService,
   ProcessTransferService,
 } from 'src/modules/transfer/core/services';
+import { transferDtoMock, transferMock } from 'test/mocks/entities';
 import {
   QueueRepositoryMock,
   TransferRepositoryMock,
@@ -46,6 +47,7 @@ describe(CreateTransferService.name, () => {
     );
 
     processTransferService.process = jest.fn();
+    transferRepository.save = jest.fn();
   });
 
   afterEach(() => {
@@ -58,8 +60,9 @@ describe(CreateTransferService.name, () => {
   });
 
   it('should create a transfer and start processing', async () => {
-    // const result = await service.execute();
-    // expect(result).toBeUndefined();
-    // expect(eventEmitter.request).toHaveBeenCalledTimes(0);
+    await service.create(transferDtoMock);
+
+    expect(transferRepository.save).toHaveBeenCalledWith(transferMock);
+    expect(processTransferService.process).toHaveBeenCalledTimes(1);
   });
 });

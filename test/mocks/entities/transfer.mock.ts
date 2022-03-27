@@ -8,5 +8,5 @@ transferDtoMock.expectedOn = new Date(1639526400000);
 
 export const transferMock = new Transfer(transferDtoMock);
 
-export const transferDocumentMock = transferMock as TransferDocument;
+export const transferDocumentMock = { ...transferMock } as TransferDocument;
 transferDocumentMock._id = 'mockedMongoId';
