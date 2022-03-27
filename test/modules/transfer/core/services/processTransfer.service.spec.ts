@@ -6,11 +6,13 @@ import {
 } from 'src/infrastructure/ports';
 import { SaveToQueueService } from 'src/modules/pendingQueue/core/services';
 import { ProcessTransferService } from 'src/modules/transfer/core/services';
-import { expectedDateCreationError } from 'src/modules/transfer/interfaces/responses';
+import {
+  expectedDateCreationError,
+  rejectedTransfer,
+} from 'src/modules/transfer/interfaces/responses';
 import {
   oldDateTransferDocumentMock,
   transferDocumentMock,
-  transferMock,
 } from 'test/mocks/entities';
 import {
   QueueRepositoryMock,
@@ -18,12 +20,14 @@ import {
 } from 'test/mocks/repositories';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { TransferStatus } from 'src/shared/enums';
 
 const mock = new MockAdapter(axios);
 
 describe(ProcessTransferService.name, () => {
   let service: ProcessTransferService;
   let transferRepository: TransferRepositoryMock;
+  let queueRepository: QueueRepositoryMock;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -46,9 +50,12 @@ describe(ProcessTransferService.name, () => {
     transferRepository = module.get<TransferRepositoryMock>(
       TransferRepositoryPort,
     );
+    queueRepository = module.get<QueueRepositoryMock>(QueueRepositoryPort);
+
+    transferRepository.update = jest.fn();
+    queueRepository.save = jest.fn();
 
     Date.now = jest.fn(() => 1648344763989);
-    transferRepository.update = jest.fn();
   });
 
   afterEach(() => {
@@ -64,12 +71,40 @@ describe(ProcessTransferService.name, () => {
   it('should process transfer', async () => {
     mock.onPost('/paymentOrders').reply(200, {
       internalId: 'mocked123',
-      status: 'CREATED',
+      status: TransferStatus.CREATED,
     });
+
+    const result = await service.process(transferDocumentMock);
+
+    expect(transferRepository.update).toHaveBeenCalledWith(
+      transferDocumentMock,
+    );
+    expect(result).toBe(transferDocumentMock);
+  });
+
+  it('should process transfer with reject result', async () => {
+    mock.onPost('/paymentOrders').reply(200, {
+      internalId: 'mocked123',
+      status: TransferStatus.REJECTED,
+    });
+
+    try {
+      await service.process(transferDocumentMock);
+    } catch (error) {
+      expect(error.message).toBe(rejectedTransfer.description);
+    }
+
+    expect(transferRepository.update).toHaveBeenCalledWith(
+      transferDocumentMock,
+    );
+  });
+
+  it('should get an error processing transfer and add it to dead letter queue', async () => {
+    mock.onPost('/paymentOrders').reply(400, {});
 
     await service.process(transferDocumentMock);
 
-    expect(transferRepository.update).toHaveBeenCalledWith(transferMock);
+    expect(queueRepository.save).toHaveBeenCalledTimes(1);
   });
 
   it('should throw out of date exception', async () => {
