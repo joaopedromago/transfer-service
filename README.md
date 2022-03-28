@@ -1,73 +1,47 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Descrição
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Api para um serviço de transferência, desenvolvida em [Node](https://nodejs.org/en/about/) utilizando o framework [Nest](https://github.com/nestjs/nest) e o banco de dados [MongoDB](https://www.mongodb.com).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Como rodar
+Antes de tudo é recomendado definir suas variáveis de ambiente.
+Você pode pegar exemplos do arquivo [.env.sample](.env.sample)
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
+Api do serviço de transferência
 
 ```bash
-$ npm install
+yarn
+yarn start
 ```
 
-## Running the app
-
+Servidor mock da plataforma de liquidação do banco
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+yarn mockserver
 ```
 
-## Test
+## Testes unitários
 
 ```bash
 # unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
+$ yarn test
 
 # test coverage
 $ npm run test:cov
 ```
 
-## Support
+## Sistema
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+O sistema segue um padrão de arquitetura limpa e possui dois módulos:
 
-## Stay in touch
+- transfer: Este módulo é responsável pelo serviço de transferência, definindo uma interface REST e os serviços de armazenamento e processo da transferência.
+- pendingQueue: Este módulo é responsável pela dead letter queue, a fila de execução que irá realizar re-tentativas de processamento de transferências falhadas.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Está todo documentado utilizando [Swagger](https://swagger.io/).
 
-## License
+Variáveis de ambiente
 
-Nest is [MIT licensed](LICENSE).
+| Nome     | Descrição |
+| ----------- | ----------- |
+| PORT | Define em qual porta o serviço http da aplicação irá executar |
+| BANK_SETTLEMENT_URL | Define a url da plataforma de liquidação do banco |
+| MONGO_URL | Define a url de conexão com o mongoDB |
+| EXECUTE_PENDING_QUEUE_CRON | Define, através de uma expressão CRON, qual o intervalo de execução que a fila de pendências irá executar |
